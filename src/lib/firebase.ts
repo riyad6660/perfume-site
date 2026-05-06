@@ -17,7 +17,11 @@ export async function signInWithGoogle() {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     return result.user;
-  } catch (error) {
+  } catch (error: any) {
+    if (error.code === 'auth/popup-closed-by-user') {
+      console.warn("Authentication popup was closed by the user.");
+      return null;
+    }
     console.error("Authentication error:", error);
     throw error;
   }
