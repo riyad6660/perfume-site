@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+
+  --color-amethyst: #2A1B38;
+  --color-rose: #C2948A;
+  --color-ivory: #FBF7F4;
+  --color-parchment: #F2E9E1;
+  --color-verdigris: #4B7F7A;
+  --color-gold: #C9A96E;
+  
+  --color-success: #3A6B5A;
+  --color-error: #C25B5B;
+  --color-info: #5B7FAF;
+
+  --radius-xl: 32px;
+  --shadow-bento: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+@layer base {
+  body {
+    @apply bg-ivory text-[#4D4D4D] font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-amethyst tracking-tight;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-rose text-white px-8 py-3 rounded-md font-medium uppercase tracking-[1.5px] text-sm transition-all hover:bg-rose/90 active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply border border-parchment bg-white text-amethyst px-8 py-3 rounded-md font-medium uppercase tracking-[1.5px] text-sm transition-all hover:bg-ivory active:scale-[0.98];
+  }
+
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-lg;
+  }
+
+  .bento-card {
+    @apply bg-white p-6 rounded-[20px] border border-parchment shadow-[var(--shadow-bento)] transition-all duration-300;
+  }
+
+  .bento-card-dark {
+    @apply bg-amethyst p-6 rounded-[20px] text-ivory relative overflow-hidden;
+  }
+}
+
+.markdown-body {
+  @apply text-sm leading-relaxed;
+}
+
+.markdown-body h1, .markdown-body h2 {
+  @apply mt-6 mb-4 font-serif text-amethyst;
+}
+
+.markdown-body p {
+  @apply mb-4;
+}

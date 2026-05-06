@@ -1,0 +1,181 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "A luxury perfume product",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "compareAtPrice": { "type": "number" },
+        "sku": { "type": "string" },
+        "stock": { "type": "number" },
+        "category": { "type": "string" },
+        "images": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "variants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "size": { "type": "string" },
+              "price": { "type": "number" },
+              "stock": { "type": "number" },
+              "sku": { "type": "string" }
+            }
+          }
+        },
+        "scentFamily": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "pyramidNotes": {
+          "type": "object",
+          "properties": {
+            "top": { "type": "array", "items": { "type": "string" } },
+            "mid": { "type": "array", "items": { "type": "string" } },
+            "base": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "subscriptionEnabled": { "type": "boolean" },
+        "engravingEnabled": { "type": "boolean" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "status": { "type": "string", "enum": ["active", "archived"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "price", "sku", "category", "createdAt"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A customer order",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerEmail": { "type": "string" },
+        "total": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "processing", "shipped", "delivered", "cancelled"] },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "productId": { "type": "string" },
+              "productName": { "type": "string" },
+              "variantId": { "type": "string" },
+              "size": { "type": "string" },
+              "price": { "type": "number" },
+              "quantity": { "type": "number" },
+              "engravingText": { "type": "string" }
+            }
+          }
+        },
+        "shippingAddress": {
+          "type": "object",
+          "properties": {
+            "street": { "type": "string" },
+            "city": { "type": "string" },
+            "state": { "type": "string" },
+            "zip": { "type": "string" },
+            "country": { "type": "string" }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customerId", "total", "status", "createdAt"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "User profile and loyalty data",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "loyaltyPoints": { "type": "number" },
+        "tier": { "type": "string", "enum": ["Silver", "Gold", "Platinum"] },
+        "orderCount": { "type": "number" },
+        "totalSpent": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "loyaltyPoints", "tier", "createdAt"]
+    },
+    "JournalPost": {
+      "title": "Journal Post",
+      "description": "A blog post",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "author": { "type": "string" },
+        "content": { "type": "string" },
+        "excerpt": { "type": "string" },
+        "coverImage": { "type": "string" },
+        "publishDate": { "type": "string", "format": "date-time" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "status": { "type": "string", "enum": ["draft", "published"] }
+      },
+      "required": ["title", "author", "content", "status", "publishDate"]
+    },
+    "QuizResult": {
+      "title": "Quiz Result",
+      "description": "Lead search from scent oracle",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "recommendedProductIds": { "type": "array", "items": { "type": "string" } },
+        "answers": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["recommendedProductIds", "createdAt"]
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Authorized admin users",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["owner", "editor"] }
+      },
+      "required": ["email", "role"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Perfume inventory"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Customer orders"
+    },
+    "/customers/{customerId}": {
+      "schema": "Customer",
+      "description": "User profiles"
+    },
+    "/journal/{postId}": {
+      "schema": "JournalPost",
+      "description": "Blog posts"
+    },
+    "/quizResults/{resultId}": {
+      "schema": "QuizResult",
+      "description": "Oracle results"
+    },
+    "/admins/{adminId}": {
+      "schema": "Admin",
+      "description": "Admin white-list"
+    }
+  }
+}
